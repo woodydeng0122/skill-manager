@@ -1,6 +1,6 @@
 ---
 name: skill-manager
-description: Detects installed AI IDE skills, evaluates their necessity and redundancy, and recommends high-value uninstalled skills based on project context. Triggers when users mention skill management, skill analysis, skill recommendation, check skills, skill evaluation, or analyze skills.
+description: AI skill management assistant that scans, analyzes, and recommends IDE skills based on project context. Triggers on skill analysis, management, or optimization requests.
 license: MIT
 allowed-tools: Bash Read Write Glob Grep
 ---
@@ -73,13 +73,13 @@ Based on project context analysis, recommend high-value uninstalled Skills:
 Output the complete report in a structured format:
 
 ```
-╔══════════════════════════════════════════════════╗
-║           📊 Skill Management Analysis Report    ║
+"══════════════════════════════════════════════════--
+'           " Skill Management Analysis Report    '
 ╠══════════════════════════════════════════════════╣
-║ Project Type: {type}                              ║
-║ Tech Stack: {tech_stack}                          ║
-║ Installed Skills: {count}                         ║
-║ Analysis Time: {timestamp}                        ║
+' Project Type: {type}                              '
+' Tech Stack: {tech_stack}                          '
+' Installed Skills: {count}                         '
+' Analysis Time: {timestamp}                        '
 ╚══════════════════════════════════════════════════╝
 ```
 
