@@ -1,49 +1,49 @@
 # skill-manager
 
-技能管理分析器 — 检测已安装的 AI IDE Skill，评估必要性与冗余度，按项目需求推荐未安装的高价值 Skill。
+Skill Management Analyzer — Detects installed AI IDE Skills, evaluates necessity and redundancy, and recommends high-value uninstalled Skills based on project needs.
 
-## 安装
+## Installation
 
 ```bash
 npx skills add woodydeng0122/skill-manager --skill skill-manager
 ```
 
-或手动安装：
+Or install manually:
 
 ```bash
 git clone https://github.com/woodydeng0122/skill-manager.git skills/skill-manager
 ```
 
-## 使用
+## Usage
 
-在 AI IDE 对话中直接提及以下关键词即可触发：
+Mention the following keywords in your AI IDE conversation to trigger the skill:
 
-- "分析我的技能" / "技能管理" / "检查技能"
-- "技能评估" / "技能推荐" / "skill分析"
+- "analyze my skills" / "skill management" / "check skills"
+- "skill evaluation" / "skill recommendation" / "skill analysis"
 
-Skill 激活后将自动执行：
+Once activated, the Skill will automatically:
 
-1. 扫描 `skills/` 目录下所有已安装 Skill
-2. 分析当前项目的技术栈和特征
-3. 对每个 Skill 进行必要性评分（0-100）和冗余度检测
-4. 推荐未安装的高价值 Skill（P0/P1/P2 优先级）
-5. 输出结构化分析报告
+1. Scan all installed Skills in the `skills/` directory
+2. Analyze the current project's tech stack and characteristics
+3. Score each Skill's necessity (0-100) and detect redundancy
+4. Recommend high-value uninstalled Skills (P0/P1/P2 priority)
+5. Output a structured analysis report
 
-也可直接运行分析脚本：
+You can also run the analysis script directly:
 
 ```bash
 python skills/skill-manager/scripts/skill_analyzer.py scan --skills-dir skills --project-dir .
 ```
 
-## 目录结构
+## Directory Structure
 
 ```
 skills/skill-manager/
-├── SKILL.md              # 技能定义文件
+├── SKILL.md              # Skill definition file
 └── scripts/
-    └── skill_analyzer.py # 核心分析引擎（纯 Python 标准库，零依赖）
+    └── skill_analyzer.py # Core analysis engine (pure Python stdlib, zero dependencies)
 ```
 
-## 许可证
+## License
 
 MIT
