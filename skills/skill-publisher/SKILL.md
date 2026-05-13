@@ -156,7 +156,7 @@ Guide the user to submit their Skill to the skills.sh public directory:
 
 
 
-2. **Open the submission page**: Navigate to https://agentskill.sh/submit
+2. **Open the submission page**: Navigate to skills.sh submission page
 
 
 
@@ -208,57 +208,21 @@ Do NOT show Step 4 content until the user confirms submission.
 
 
 
-### Step 4: Set Up Auto-Sync (Optional but Recommended)
-
-
+### Step 4: Auto-Sync Setup
 
 Only show this step after the user has confirmed submission in Step 3.5.
 
+Two sync modes are available:
 
+- **Daily sync**: Automatic daily synchronization (no setup required)
+- **Instant sync**: Requires manual configuration (see `webhook-setup.md`)
 
-Configure a GitHub webhook so that skill content updates automatically sync to skills.sh:
-
-
-
-> **Two sync modes available:**
-
-> - **Daily sync** (no setup needed): skills.sh checks for changes every 24 hours automatically.
-
-> - **Instant sync** (recommended): Add a GitHub webhook and your skills update on every `git push`.
-
-
-
-To set up instant sync via webhook:
-
-
-
-1. Go to the GitHub repository ' **Settings** ' **Webhooks** ' **Add webhook**
-
-
-
-2. Configure the webhook:
-
-   - **Payload URL**: `<SKILLS_SH_WEBHOOK_URL>` (Get this URL from agentskill.sh after submission)
-
-   - **Content type**: `application/json`
-
-   - **Secret**: (leave empty or as provided by agentskill.sh)
-
-   - **Which events**: Select **Just the push event**
-
-   - **Active**: ✅ Checked
-
-
-
-3. Click **Add webhook** to save
-
-
-
-After this, every `git push` will automatically sync updated Skill content to the directory.
-
-
+After setup, skill content updates automatically on every `git push`.
 
 > **Note**: Skills imported via direct URL can be re-submitted anytime to update. The system compares content hashes to detect changes.
+
+
+
 
 
 
@@ -286,7 +250,7 @@ Also generate the skill's public page URL using the format:
 
 ```
 
-https://www.skills.sh/<github-username>/agent-skills/<skill-name>
+skills.sh page
 
 ```
 
@@ -330,7 +294,7 @@ After completing the workflow, provide the user with a summary:
 
 ' Submitted: ✅ / ⏳ Pending                                '
 
-' Webhook: ✅ / ❌ Not configured                           '
+' Sync: ✅ / ❌ Not configured                           '
 
 ' Discoverable: ✅ / ⏳ Indexing...                         '
 
@@ -338,7 +302,7 @@ After completing the workflow, provide the user with a summary:
 
 ' "-- Skill Page:                                            '
 
-' https://www.skills.sh/{github_username}/agent-skills/{name} '
+' skills.sh page '
 
 ╚══════════════════════════════════════════════════════════╝
 
@@ -374,7 +338,7 @@ If the user just wants a quick checklist, provide:
 
 - [ ] Skill is in a public GitHub repository
 
-- [ ] Submitted to https://agentskill.sh/submit
+- [ ] Submitted to skills.sh submission page
 
 - [ ] (Optional) Webhook configured for auto-sync
 
