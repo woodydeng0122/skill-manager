@@ -1,71 +1,71 @@
 # skill-manager
 
-A collection of AI IDE Skills for skill management and publishing.
+一个用于技能管理和发布的 AI IDE 技能集合。
 
-- **skill-manager** — Detects installed AI IDE Skills, evaluates necessity and redundancy, and recommends high-value uninstalled Skills based on project needs.
-- **skill-publisher** — Guides you to publish and submit Skills to the skills.sh directory, making them discoverable via `npx skills find`.
+- **skill-manager** — 检测已安装的 AI IDE 技能，评估必要性和冗余度，并根据项目需求推荐高价值的未安装技能。
+- **skill-publisher** — 引导你将技能发布并提交到 skills.sh 目录，使其可以通过 `npx skills find` 被搜索到。
 
-## Installation
+## 安装
 
 ```bash
 npx skills add woodydeng0122/skill-manager --skill skill-manager
 npx skills add woodydeng0122/skill-manager --skill skill-publisher
 ```
 
-Or install manually:
+或者手动安装：
 
 ```bash
 git clone https://github.com/woodydeng0122/skill-manager.git skills/skill-manager
 ```
 
-## Skills
+## 技能说明
 
-### skill-manager — Skill Management Analyzer
+### skill-manager — 技能管理分析器
 
-**Trigger keywords:**
-- "analyze my skills" / "skill management" / "check skills"
-- "skill evaluation" / "skill recommendation" / "skill analysis"
+**触发关键词：**
+- "分析我的技能" / "技能管理" / "检查技能"
+- "技能评估" / "技能推荐" / "技能分析"
 
-**What it does:**
+**功能说明：**
 
-1. Scan all installed Skills in the `skills/` directory
-2. Analyze the current project's tech stack and characteristics
-3. Score each Skill's necessity (0-100) and detect redundancy
-4. Recommend high-value uninstalled Skills (P0/P1/P2 priority)
-5. Output a structured analysis report
+1. 扫描 `skills/` 目录中所有已安装的技能
+2. 分析当前项目的技术栈和特征
+3. 为每个技能评分必要性（0-100）并检测冗余
+4. 推荐高价值的未安装技能（P0/P1/P2 优先级）
+5. 输出结构化的分析报告
 
-**Run directly:**
+**直接运行：**
 
 ```bash
 python skills/skill-manager/scripts/skill_analyzer.py scan --skills-dir skills --project-dir .
 ```
 
-### skill-publisher — Skill Publishing Guide
+### skill-publisher — 技能发布指南
 
-**Trigger keywords:**
-- "publish skill" / "submit skill" / "skills find"
-- "skill discovery" / "make skill discoverable" / "share skill"
+**触发关键词：**
+- "发布技能" / "提交技能" / "技能搜索"
+- "技能发现" / "让技能可被搜索" / "分享技能"
 
-**What it does:**
+**功能说明：**
 
-1. Verify your Skill's SKILL.md structure and format
-2. Optimize your Skill description for better discoverability
-3. Guide you through submitting to https://agentskill.sh/submit
-4. Help set up GitHub webhook for auto-sync
-5. Verify your Skill is discoverable via `npx skills find`
+1. 验证技能的 SKILL.md 结构和格式
+2. 优化技能描述以提高可发现性
+3. 引导你提交到 https://agentskill.sh/submit
+4. 帮助设置 GitHub webhook 实现自动同步
+5. 验证技能可以通过 `npx skills find` 被搜索到
 
-## Directory Structure
+## 目录结构
 
 ```
 skills/
 ├── skill-manager/
-│   ├── SKILL.md              # Skill definition file
+│   ├── SKILL.md              # 技能定义文件
 │   └── scripts/
-│       └── skill_analyzer.py # Core analysis engine (pure Python stdlib, zero dependencies)
+│       └── skill_analyzer.py # 核心分析引擎（纯 Python 标准库，无外部依赖）
 └── skill-publisher/
-    └── SKILL.md              # Skill publishing guide
+    └── SKILL.md              # 技能发布指南
 ```
 
-## License
+## 许可证
 
 MIT

@@ -1,29 +1,29 @@
-# GitHub Webhook Setup for Auto-Sync
+# GitHub Webhook 自动同步设置
 
-This guide explains how to set up automatic synchronization between your GitHub repository and agentskill.sh.
+本指南说明如何设置 GitHub 仓库与 agentskill.sh 之间的自动同步。
 
-## Why Set Up Auto-Sync?
+## 为什么设置自动同步？
 
-- **Daily sync** (automatic): agentskill.sh checks for changes every 24 hours
-- **Instant sync** (recommended): Updates appear immediately after `git push`
+- **每日同步**（自动）：agentskill.sh 每 24 小时检查一次更改
+- **即时同步**（推荐）：每次 `git push` 后立即更新
 
-## Setup Instructions
+## 设置说明
 
-1. Navigate to your GitHub repository
-2. Go to **Settings** → **Webhooks** → **Add webhook**
-3. Configure the webhook:
-   - **Payload URL**: Obtain from agentskill.sh submission page after submitting your repository
-   - **Content type**: `application/json`
-   - **Secret**: Leave empty or use value provided by agentskill.sh
-   - **Which events**: Select "Just the push event"
-   - **Active**: Checked
-4. Click **Add webhook** to save
+1. 导航到你的 GitHub 仓库
+2. 进入 **Settings** → **Webhooks** → **Add webhook**
+3. 配置 webhook：
+   - **Payload URL**：在提交仓库后从 agentskill.sh 提交页面获取
+   - **Content type**：`application/json`
+   - **Secret**：留空或使用 agentskill.sh 提供的值
+   - **Which events**：选择 "Just the push event"
+   - **Active**：勾选
+4. 点击 **Add webhook** 保存
 
-## Verification
+## 验证
 
-After setup, make a test push to your repository and verify the skill updates on agentskill.sh within minutes.
+设置完成后，向你的仓库进行一次测试推送，并验证技能在几分钟内就在 agentskill.sh 上更新了。
 
-## Troubleshooting
+## 故障排除
 
-- If syncs fail, check the webhook delivery logs in GitHub Settings → Webhooks → [Your webhook] → Recent Deliveries
-- Ensure the Payload URL is correct and accessible
+- 如果同步失败，请检查 GitHub Settings → Webhooks → [Your webhook] → Recent Deliveries 中的 webhook 交付日志
+- 确保 Payload URL 正确且可访问

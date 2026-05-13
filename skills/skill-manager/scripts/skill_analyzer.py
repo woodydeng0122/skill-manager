@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Skill Management Analyzer - Core Analysis Engine
+"""技能管理分析器 - 核心分析引擎
 
-Scans installed skills, evaluates necessity and redundancy, and recommends high-value uninstalled skills.
-Pure Python 3 standard library implementation, zero external dependencies.
+扫描已安装的技能，评估必要性和冗余度，并推荐高价值的未安装技能。
+纯 Python 3 标准库实现，零外部依赖。
 """
 
 import argparse
@@ -23,7 +23,7 @@ EXCLUDE_DIRS = {
 
 
 def scan_skills(skills_dir: str) -> list[dict]:
-    """Scan the skills directory and discover all installed skills"""
+    """扫描技能目录并发现所有已安装的技能"""
     skills = []
     skills_path = Path(skills_dir)
 
@@ -48,7 +48,7 @@ def scan_skills(skills_dir: str) -> list[dict]:
 
 
 def parse_skill_md(skill_md_path: Path) -> dict:
-    """Parse SKILL.md file and extract metadata"""
+    """解析 SKILL.md 文件并提取元数据"""
     info = {
         "name": skill_md_path.parent.name,
         "description": "",
@@ -103,7 +103,7 @@ def parse_skill_md(skill_md_path: Path) -> dict:
 
 
 def count_files(directory: Path) -> int:
-    """Count the number of files in a directory"""
+    """统计目录中的文件数量"""
     count = 0
     try:
         for _ in directory.rglob("*"):
@@ -115,12 +115,12 @@ def count_files(directory: Path) -> int:
 
 
 def analyze_project(project_dir: str) -> dict:
-    """Analyze project context"""
+    """分析项目上下文"""
     project_path = Path(project_dir)
     context = {
         "languages": Counter(),
         "frameworks": [],
-        "project_type": "unknown",
+        "project_type": "未知",
         "total_files": 0,
         "has_package_json": False,
         "has_requirements_txt": False,
@@ -235,7 +235,7 @@ def analyze_project(project_dir: str) -> dict:
 
 
 def calc_necessity(skill: dict, project_context: dict) -> tuple[int, str]:
-    """Calculate skill necessity score"""
+    """计算技能必要性评分"""
     score = 0
     reasons = []
 
@@ -246,7 +246,7 @@ def calc_necessity(skill: dict, project_context: dict) -> tuple[int, str]:
     if overlap:
         domain_score = min(40, len(overlap) * 10)
         score += domain_score
-        reasons.append(f"Domain match: shares {len(overlap)} keyword(s) with project tech stack")
+        reasons.append(f"领域匹配：与项目技术栈共享 {len(overlap)} 个关键词")
 
     desc = skill.get("description", "").lower()
     name = skill.get("name", "").lower()
@@ -261,22 +261,22 @@ def calc_necessity(skill: dict, project_context: dict) -> tuple[int, str]:
     for indicator, points in problem_indicators.items():
         if indicator in desc or indicator in name:
             score += points
-            reasons.append(f"Problem solving: involves {indicator}-related capabilities")
+            reasons.append(f"问题解决：涉及 {indicator} 相关能力")
             break
 
     if skill.get("line_count", 0) > 100:
         score += 10
-        reasons.append("Maintenance: high content completeness")
+        reasons.append("维护状态：内容完整性高")
     if skill.get("has_scripts"):
         score += 10
-        reasons.append("Maintenance: includes helper scripts")
+        reasons.append("维护状态：包含辅助脚本")
 
     score = min(100, score)
-    return score, "; ".join(reasons) if reasons else "Low relevance to current project"
+    return score, "; ".join(reasons) if reasons else "与当前项目相关性较低"
 
 
 def calc_redundancy(skills: list[dict]) -> list[dict]:
-    """Calculate redundancy between skills"""
+    """计算技能之间的冗余度"""
     redundancies = []
 
     for i in range(len(skills)):
@@ -300,7 +300,7 @@ def calc_redundancy(skills: list[dict]) -> list[dict]:
                     "skill_b": skills[j]["name"],
                     "overlap_ratio": round(jaccard * 100, 1),
                     "shared_keywords": list(intersection)[:5],
-                    "severity": "High" if jaccard > 0.5 else "Medium" if jaccard > 0.3 else "Low",
+                    "severity": "高" if jaccard > 0.5 else "中" if jaccard > 0.3 else "低",
                 })
 
     redundancies.sort(key=lambda x: x["overlap_ratio"], reverse=True)
@@ -308,7 +308,7 @@ def calc_redundancy(skills: list[dict]) -> list[dict]:
 
 
 def recommend_skills(project_context: dict, installed_names: list[str]) -> list[dict]:
-    """Recommend uninstalled skills based on project context"""
+    """根据项目上下文推荐未安装的技能"""
     recommendations = []
 
     installed_set = set(installed_names)
@@ -316,73 +316,73 @@ def recommend_skills(project_context: dict, installed_names: list[str]) -> list[
     skill_db = [
         {
             "name": "skill-creator",
-            "description": "Official tool for creating and managing custom Skills",
+            "description": "用于创建和管理自定义技能的官方工具",
             "match_condition": lambda ctx: True,
             "priority": "P0",
-            "benefit": "Quickly create and manage Skills, foundational for all Skill development",
+            "benefit": "快速创建和管理技能，所有技能开发的基础",
         },
         {
             "name": "code-reviewer",
-            "description": "Automated code review, detects potential issues and improvements",
+            "description": "自动化代码审查，检测潜在问题和改进点",
             "match_condition": lambda ctx: any(l in str(ctx["languages"]) for l in ["Python", "JavaScript", "TypeScript", "Go", "Rust", "Java"]),
             "priority": "P0",
-            "benefit": "Automatically discover code issues, improve code quality",
+            "benefit": "自动发现代码问题，提高代码质量",
         },
         {
             "name": "test-generator",
-            "description": "Auto-generate unit tests and integration tests",
+            "description": "自动生成单元测试和集成测试",
             "match_condition": lambda ctx: ctx["total_files"] > 5,
             "priority": "P1",
-            "benefit": "Auto-generate test cases, improve test coverage",
+            "benefit": "自动生成测试用例，提高测试覆盖率",
         },
         {
             "name": "doc-generator",
-            "description": "Auto-generate API documentation and code comments",
+            "description": "自动生成 API 文档和代码注释",
             "match_condition": lambda ctx: ctx["total_files"] > 10,
             "priority": "P1",
-            "benefit": "Auto-generate docs, reduce manual maintenance cost",
+            "benefit": "自动生成文档，减少手动维护成本",
         },
         {
             "name": "git-helper",
-            "description": "Smart Git commit message generation and branch management",
+            "description": "智能 Git 提交信息生成和分支管理",
             "match_condition": lambda ctx: ctx["has_git"],
             "priority": "P1",
-            "benefit": "Standardize Git commits, improve collaboration efficiency",
+            "benefit": "标准化 Git 提交，提高协作效率",
         },
         {
             "name": "refactor-assistant",
-            "description": "Code refactoring assistant, identifies code smells and suggests refactoring plans",
+            "description": "代码重构助手，识别代码异味并提供重构方案",
             "match_condition": lambda ctx: ctx["total_files"] > 10,
             "priority": "P2",
-            "benefit": "Identify code smells, provide refactoring suggestions",
+            "benefit": "识别代码异味，提供重构建议",
         },
         {
             "name": "api-designer",
-            "description": "RESTful API design and mock data generation",
+            "description": "RESTful API 设计和 Mock 数据生成",
             "match_condition": lambda ctx: ctx["project_type"] in ("web_backend", "web_frontend"),
             "priority": "P1",
-            "benefit": "Quickly design API interfaces, generate mock data",
+            "benefit": "快速设计 API 接口，生成 Mock 数据",
         },
         {
             "name": "db-migration-helper",
-            "description": "Database migration script generation and version management",
+            "description": "数据库迁移脚本生成和版本管理",
             "match_condition": lambda ctx: any(l in str(ctx["languages"]) for l in ["Python", "Go", "Java", "Rust"]),
             "priority": "P2",
-            "benefit": "Safely generate database migration scripts",
+            "benefit": "安全生成数据库迁移脚本",
         },
         {
             "name": "docker-compose-generator",
-            "description": "Auto-generate Docker Compose configuration",
+            "description": "自动生成 Docker Compose 配置",
             "match_condition": lambda ctx: ctx["project_type"] in ("web_backend", "web_frontend"),
             "priority": "P2",
-            "benefit": "Quickly generate containerization deployment config",
+            "benefit": "快速生成容器化部署配置",
         },
         {
             "name": "performance-profiler",
-            "description": "Performance analysis tool, detects bottlenecks and provides optimization suggestions",
+            "description": "性能分析工具，检测瓶颈并提供优化建议",
             "match_condition": lambda ctx: ctx["total_files"] > 20,
             "priority": "P2",
-            "benefit": "Discover performance bottlenecks, provide optimization solutions",
+            "benefit": "发现性能瓶颈，提供优化方案",
         },
     ]
 
@@ -404,32 +404,32 @@ def recommend_skills(project_context: dict, installed_names: list[str]) -> list[
 
 
 def generate_report(skills: list[dict], project_context: dict, redundancies: list[dict], recommendations: list[dict]) -> str:
-    """Generate formatted analysis report"""
+    """生成格式化的分析报告"""
     lines = []
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     lines.append("╔══════════════════════════════════════════════════╗")
-    lines.append("║           📊 Skill Management Analysis Report   ║")
+    lines.append("║           📊 技能管理分析报告   ║")
     lines.append("╠══════════════════════════════════════════════════╣")
-    lines.append(f"║ Project Type: {project_context['project_type']:<42}║")
+    lines.append(f"║ 项目类型: {project_context['project_type']:<42}║")
     top_langs = ", ".join(f"{l}({c})" for l, c in project_context["languages"].most_common(3))
-    lines.append(f"║ Top Languages: {top_langs:<40}║")
+    lines.append(f"║ 主要语言: {top_langs:<40}║")
     if project_context["frameworks"]:
         fw_str = ", ".join(project_context["frameworks"][:3])
-        lines.append(f"║ Frameworks: {fw_str:<44}║")
-    lines.append(f"║ Installed Skills: {len(skills)}{' ' * 37}║")
-    lines.append(f"║ Analysis Time: {now:<42}║")
+        lines.append(f"║ 框架: {fw_str:<44}║")
+    lines.append(f"║ 已安装技能: {len(skills)}{' ' * 37}║")
+    lines.append(f"║ 分析时间: {now:<42}║")
     lines.append("╚══════════════════════════════════════════════════╝")
     lines.append("")
 
-    lines.append("## 1. Installed Skills Evaluation")
+    lines.append("## 1. 已安装技能评估")
     lines.append("")
 
     if not skills:
-        lines.append("> ⚠️ No Skills are currently installed. Consider installing skill-creator to create your first Skill.")
+        lines.append("> ⚠️ 当前未安装任何技能。考虑安装 skill-creator 来创建你的第一个技能。")
         return "\n".join(lines)
 
-    lines.append("| Skill Name | Necessity | Redundancy Risk | Status | Notes |")
+    lines.append("| 技能名称 | 必要性 | 冗余风险 | 状态 | 备注 |")
     lines.append("|------------|-----------|-----------------|--------|-------|")
 
     redundant_names = set()
@@ -442,24 +442,24 @@ def generate_report(skills: list[dict], project_context: dict, redundancies: lis
         necessity, reason = calc_necessity(skill, project_context)
 
         if necessity >= 80:
-            status = "✅ Core"
+            status = "✅ 核心"
         elif necessity >= 60:
-            status = "👍 Recommended"
+            status = "👍 推荐"
         elif necessity >= 40:
-            status = "⚠️ Optional"
+            status = "⚠️ 可选"
         else:
-            status = "💤 Low Priority"
+            status = "💤 低优先级"
 
-        risk = "High" if name in redundant_names else "Low"
+        risk = "高" if name in redundant_names else "低"
         desc_short = skill["description"][:40] if skill["description"] else "-"
         lines.append(f"| {name} | {necessity}/100 | {risk} | {status} | {desc_short} |")
 
     lines.append("")
 
     if redundancies:
-        lines.append("## 2. Redundancy Details")
+        lines.append("## 2. 冗余详情")
         lines.append("")
-        lines.append("| Skill A | Skill B | Overlap % | Severity | Shared Keywords |")
+        lines.append("| 技能 A | 技能 B | 重叠率 | 严重度 | 共享关键词 |")
         lines.append("|---------|---------|-----------|----------|-----------------|")
         for r in redundancies:
             kw_str = ", ".join(r["shared_keywords"][:3])
@@ -467,37 +467,37 @@ def generate_report(skills: list[dict], project_context: dict, redundancies: lis
         lines.append("")
 
     if recommendations:
-        lines.append("## 3. Recommended Skills to Install")
+        lines.append("## 3. 推荐安装的技能")
         lines.append("")
-        lines.append("| Priority | Skill Name | Match Reason | Expected Benefit |")
+        lines.append("| 优先级 | 技能名称 | 匹配原因 | 预期收益 |")
         lines.append("|----------|-----------|--------------|------------------|")
         for rec in recommendations:
             lines.append(f"| {rec['priority']} | {rec['name']} | {rec['description']} | {rec['benefit']} |")
         lines.append("")
 
-    lines.append("## 4. Action Items")
+    lines.append("## 4. 行动项")
     lines.append("")
 
     suggestions = []
     low_necessity = [s for s in skills if calc_necessity(s, project_context)[0] < 40]
     if low_necessity:
         names = ", ".join(s["name"] for s in low_necessity)
-        suggestions.append(f"- 🔴 Low-necessity skills ({names}): consider removing or archiving")
+        suggestions.append(f"- 🔴 低必要性技能 ({names})：考虑移除或归档")
 
     if redundancies:
-        high_sev = [r for r in redundancies if r["severity"] == "High"]
+        high_sev = [r for r in redundancies if r["severity"] == "高"]
         if high_sev:
             for r in high_sev:
-                suggestions.append(f"- 🟡 `{r['skill_a']}` and `{r['skill_b']}` have high overlap ({r['overlap_ratio']}%): consider merging or choosing one")
+                suggestions.append(f"- 🟡 `{r['skill_a']}` 和 `{r['skill_b']}` 重叠率较高 ({r['overlap_ratio']}%)：考虑合并或二选一")
 
     if recommendations:
         p0_recs = [r for r in recommendations if r["priority"] == "P0"]
         if p0_recs:
             names = ", ".join(r["name"] for r in p0_recs)
-            suggestions.append(f"- 🟢 Strongly recommended to install: {names}")
+            suggestions.append(f"- 🟢 强烈建议安装：{names}")
 
     if not suggestions:
-        suggestions.append("- ✅ Current skill configuration is reasonable, no adjustments needed")
+        suggestions.append("- ✅ 当前技能配置合理，无需调整")
 
     lines.extend(suggestions)
     lines.append("")
@@ -506,13 +506,13 @@ def generate_report(skills: list[dict], project_context: dict, redundancies: lis
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Skill Management Analyzer")
-    subparsers = parser.add_subparsers(dest="command", help="Subcommands")
+    parser = argparse.ArgumentParser(description="技能管理分析器")
+    subparsers = parser.add_subparsers(dest="command", help="子命令")
 
-    scan_parser = subparsers.add_parser("scan", help="Scan and analyze skills")
-    scan_parser.add_argument("--skills-dir", default="skills", help="Skills directory path")
-    scan_parser.add_argument("--project-dir", default=".", help="Project directory path")
-    scan_parser.add_argument("--json", action="store_true", help="Output in JSON format")
+    scan_parser = subparsers.add_parser("scan", help="扫描和分析技能")
+    scan_parser.add_argument("--skills-dir", default="skills", help="技能目录路径")
+    scan_parser.add_argument("--project-dir", default=".", help="项目目录路径")
+    scan_parser.add_argument("--json", action="store_true", help="以 JSON 格式输出")
 
     args = parser.parse_args()
 
