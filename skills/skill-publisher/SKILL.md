@@ -82,7 +82,7 @@ Before publishing, ensure the user's Skill meets all requirements:
 
      ```
 
-     Parse the output to extract the GitHub repository URL (e.g., `https://github.com/username/repo`). Display this URL to the user and proceed to Step 3 directly.
+     Parse the output to extract the GitHub repository URL (e.g., GitHub repository URL). Display this URL to the user and proceed to Step 3 directly.
 
    - **If `.git` does NOT exist**: Ask the user to provide their GitHub repository URL, then verify it points to a public GitHub repo.
 
@@ -150,7 +150,7 @@ Guide the user to submit their Skill to the skills.sh public directory:
 
 1. **Determine the GitHub repository URL**:
 
-   - **If `.git` was detected in Step 1**: Use the auto-detected remote URL directly (e.g., `https://github.com/username/repo`). Display it to the user for confirmation.
+   - **If `.git` was detected in Step 1**: Use the auto-detected remote URL directly (e.g., GitHub repository URL). Display it to the user for confirmation.
 
    - **If `.git` was NOT detected in Step 1**: Ask the user to provide their GitHub repository URL.
 
@@ -166,7 +166,7 @@ Guide the user to submit their Skill to the skills.sh public directory:
 
      ```
 
-     https://github.com/username/my-skill-repo
+     GitHub repository URL
 
      ```
 
@@ -258,7 +258,7 @@ skills.sh page
 
 Where:
 
-- `<github-username>`: Extract from the GitHub repository URL (e.g., `woodydeng0122` from `https://github.com/woodydeng0122/repo`)
+- `<github-username>`: Extract from the GitHub repository URL (e.g., `woodydeng0122` from `GitHub repository URL`)
 
 - `<skill-name>`: The `name` field from the SKILL.md frontmatter
 
@@ -314,11 +314,11 @@ After completing the workflow, provide the user with a summary:
 
 1. Extract the GitHub username from the repository URL:
 
-   - From `https://github.com/woodydeng0122/skill-manager` ' username is `woodydeng0122`
+   - From GitHub repository URL ' username is `woodydeng0122`
 
 2. Get the skill name from the `name` field in SKILL.md frontmatter
 
-3. Combine: `https://www.skills.sh/{username}/agent-skills/{skill-name}`
+3. Combine: skills.sh page
 
 
 
